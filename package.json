@@ -13,7 +13,7 @@
     "prettier:check": "prettier --check \"src/**/*.ts\"",
     "start:dev": "ts-node-dev -r tsconfig-paths/register --respawn --pretty --transpile-only --rs src/server.ts",
     "start:prod": "node dist/server.js",
-    "test": "jest --coverage"
+    "test": "jest"
   },
   "keywords": [
     "Express TypeScript Starter",
