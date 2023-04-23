@@ -2,7 +2,7 @@
 import { z } from 'zod';
 
 const envVariables = z.object({
-  NODE_ENV: z.string(),
+  NODE_ENV: z.enum(['production', 'development']),
 
   PORT: z.string().or(z.number()),
 

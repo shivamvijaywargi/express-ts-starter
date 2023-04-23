@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  # Server is the name of the backend, you can name it anything
+  server:
+    build: . # Path to Dockerfile
+    restart: unless-stopped
+    ports:
+      - 5000:5000 # Left is local and right is docker (I Believe)
+      - 9229:9229 # Debugger port
+    # Volumes is used so that we do not build the entire image upon a single file change
+    volumes:
+      - .:/app # Left is local and after : is directory set in Dockerfile
+      - /app/node_modules # Specifies to use Docker node_modules within Docker only and share everything else with us outside
+    command: yarn build:start # This will override the CMD command which is present in Dockerfile
+    env_file: .env
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+
+  # If you want to use local mongodb within docker then uncomment the below services(mongodb and mongo-express)
+#   mongodb:
+#     image: mongo
+#     # container_name: mongo
+#     environment:
+#       MONGO_INITDB_ROOT_USERNAME: root
+#       MONGO_INITDB_ROOT_PASSWORD: rootpassword
+#     ports:
+#       - 27017:27017
+
+#   mongo-express:
+#     image: mongo-express
+#     # container_name: mongo-express
+#     ports:
+#       - 8081:8081
+#     environment:
+#       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+#       - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpassword
+#       - ME_CONFIG_MONGODB_URL=mongodb://root:rootpassword@mongo:27017/
+#       - ME_CONFIG_MONGODB_SERVER=mongodb
+
+# networks:
+#   default:
+#     name: mongo-express-network

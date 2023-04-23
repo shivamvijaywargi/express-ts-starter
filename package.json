@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "build": "rimraf ./dist && swc ./src -d dist",
-    "build:start": "yarn build && yarn start:prod",
+    "build:start": "pnpm build && pnpm start:prod",
     "lint": "eslint --ignore-path .eslintignore \"src/**/*.ts\" --fix",
     "lint:check": "eslint --ignore-path .eslintignore \"src/**/*.ts\"",
     "prepare": "husky install",
