@@ -25,7 +25,7 @@ app.use(
     ],
     credentials: true,
     optionsSuccessStatus: 200,
-  })
+  }),
 );
 app.use(helmet());
 app.use(compression());

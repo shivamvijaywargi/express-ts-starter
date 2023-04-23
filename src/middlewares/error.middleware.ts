@@ -8,7 +8,7 @@ const errorMiddleware: ErrorRequestHandler = async (
   err: AppErr,
   _req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   Logger.error(err.message);
 

@@ -30,8 +30,8 @@ const format = winston.format.combine(
   winston.format.prettyPrint(),
   // winston.format.colorize({ all: true }),
   winston.format.printf(
-    (info) => `${info.timestamp} ${info.level}: ${info.message}`
-  )
+    (info) => `${info.timestamp} ${info.level}: ${info.message}`,
+  ),
 );
 
 const fileRotateTransport = new winston.transports.DailyRotateFile({
@@ -46,7 +46,7 @@ const transports = [
     format: winston.format.combine(
       winston.format.colorize({
         all: true,
-      })
+      }),
     ),
   }),
   new winston.transports.File({
