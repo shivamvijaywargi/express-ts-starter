@@ -2,12 +2,35 @@
   "name": "express-ts-starter",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rimraf ./dist && swc ./src -d dist",
+    "build:start": "yarn build && yarn start:prod",
+    "lint": "eslint --ignore-path .eslintignore \"src/**/*.ts\" --fix",
+    "lint:check": "eslint --ignore-path .eslintignore \"src/**/*.ts\"",
+    "prepare": "husky install",
+    "prettier": "prettier --write \"src/**/*.ts\"",
+    "prettier:check": "prettier --check \"src/**/*.ts\"",
+    "start:dev": "ts-node-dev -r tsconfig-paths/register --respawn --pretty --transpile-only --rs src/server.ts",
+    "start:prod": "node dist/server.js",
+    "test": "jest --coverage"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Express TypeScript Starter",
+    "Backend NodeJs starter"
+  ],
+  "author": {
+    "name": "Shivam Vijaywargi",
+    "email": "vijaywargishivam@gmail.com",
+    "url": "https://github.com/shivamvijaywargi"
+  },
+  "maintainers": [
+    {
+      "name": "Shivam Vijaywargi",
+      "email": "vijaywargishivam@gmail.com",
+      "url": "https://github.com/shivamvijaywargi"
+    }
+  ],
   "license": "ISC",
   "dependencies": {
     "compression": "^1.7.4",
@@ -43,5 +66,18 @@
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.0.4"
+  },
+  "homepage": "https://github.com/shivamvijaywargi/express-ts-starter#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivamvijaywargi/express-ts-starter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shivamvijaywargi/express-ts-starter/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0",
+    "npm": "please-use-pnpm"
   }
 }
