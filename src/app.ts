@@ -6,6 +6,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
 import morganMiddleware from './configs/morgan';
+import rateLimiter from './configs/rateLimiter';
 
 const app = express();
 
@@ -29,8 +30,10 @@ app.use(
 app.use(helmet());
 app.use(compression());
 // Custom
-// app.use(rateLimiter);
 app.use(morganMiddleware);
+if (process.env.NODE_ENV === 'production') {
+  app.use(rateLimiter);
+}
 
 /**
  * @SERVER_STATUS
