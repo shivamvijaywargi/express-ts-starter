@@ -51,7 +51,7 @@ app.get('/api/ping', (_req, res) => {
 
 // Import all routes
 
-// CatchAll - 404
+// CatchAll - 404 --- This should be after all the other routes
 app.all('*', (req, res) => {
   res.status(404).json({
     success: false,

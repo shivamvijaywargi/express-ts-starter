@@ -16,10 +16,10 @@ const envVariables = z.object({
   ACCESS_TOKEN_SECRET: z.string(),
   ACCESS_TOKEN_EXPIRY: z.string(),
 
-  // SMTP_HOST: z.string(),
-  // SMTP_MAIL: z.string(),
-  // SMTP_PASS: z.string(),
-  // SMTP_FROM_EMAIL: z.string(),
+  SMTP_HOST: z.string(),
+  SMTP_MAIL: z.string(),
+  SMTP_PASS: z.string(),
+  SMTP_FROM_EMAIL: z.string(),
 
   // CLOUDINARY_CLOUD_NAME: z.string(),
   // CLOUDINARY_API_KEY: z.string(),
