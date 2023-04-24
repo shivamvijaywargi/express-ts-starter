@@ -12,6 +12,7 @@
     "Gruntfuggly.todo-tree",
     "redhat.vscode-yaml",
     "Gruntfuggly.triggertaskonsave",
-    "EditorConfig.EditorConfig"
+    "EditorConfig.EditorConfig",
+    "ms-vscode.makefile-tools"
   ]
 }
