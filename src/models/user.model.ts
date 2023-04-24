@@ -1,10 +1,27 @@
-import { Schema, model } from 'mongoose';
+import { Document, Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import ROLES_LIST from '@/constants/ROLES_LIST';
 
-const userSchema = new Schema(
+export interface IUser extends Document {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  passwordChangedAt: number;
+  role: string;
+  isActive: boolean;
+  isEmailVerified: boolean;
+  loginCount: number;
+  refreshToken: [string];
+  comparePassword: (password: string) => Promise<boolean>;
+  generateAccessToken: () => Promise<string>;
+  generateRefreshToken: () => Promise<string>;
+}
+
+const userSchema = new Schema<IUser>(
   {
     firstName: {
       type: String,
@@ -44,8 +61,9 @@ const userSchema = new Schema(
       minlength: [8, 'Password must be atleast 8 characters long'],
       select: false,
     },
+    passwordChangedAt: Date,
     role: {
-      type: Number,
+      type: String,
       enum: [ROLES_LIST.SUPER_ADMIN, ROLES_LIST.ADMIN, ROLES_LIST.USER],
       default: ROLES_LIST.USER,
     },
@@ -74,6 +92,14 @@ userSchema.pre('save', async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
 });
 
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+
+  this.passwordChangedAt = Date.now();
+
+  next();
+});
+
 userSchema.methods = {
   comparePassword: async function (plainPassword: string) {
     return bcrypt.compare(plainPassword, this.password);
@@ -98,6 +124,6 @@ userSchema.methods = {
   },
 };
 
-const User = model('User', userSchema);
+const User = model<IUser>('User', userSchema);
 
 export default User;
