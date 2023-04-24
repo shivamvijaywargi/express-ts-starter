@@ -8,7 +8,7 @@
     {
       "label": "restart server",
       "type": "shell",
-      "command": "docker compose restart server",
+      "command": "docker-compose -f docker-compose.dev.yaml restart",
       "presentation": {
         "reveal": "never"
       }
