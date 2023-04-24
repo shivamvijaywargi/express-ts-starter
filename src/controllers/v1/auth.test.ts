@@ -2,19 +2,19 @@ import request from 'supertest';
 import app from '../../app';
 import mongoose from 'mongoose';
 
+beforeAll(async () => {
+  await mongoose.connect('mongodb://127.0.0.1:27017/jest');
+});
+
+afterAll(async () => {
+  await mongoose.connection.close();
+});
+
+afterEach(async () => {
+  await mongoose.connection.db.dropDatabase();
+});
+
 describe('Test the registration route', () => {
-  beforeAll(async () => {
-    await mongoose.connect('mongodb://127.0.0.1:27017/jest');
-  });
-
-  afterAll(async () => {
-    await mongoose.connection.close();
-  });
-
-  afterEach(async () => {
-    await mongoose.connection.db.dropDatabase();
-  });
-
   it('registers a user successfully and returns a 201 status code', async () => {
     const response = await request(app)
       .post('/api/v1/auth/new')
