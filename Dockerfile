@@ -4,7 +4,9 @@ LABEL maintainer="vijaywargishivam@gmail.com"
 
 WORKDIR /app
 
-COPY package*.json yarn.lock pnpm-lock.yaml ./
+COPY package*.json pnpm-lock.yaml ./
+
+RUN npm i -g pnpm
 
 RUN pnpm i
 

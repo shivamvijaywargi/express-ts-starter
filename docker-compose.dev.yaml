@@ -24,7 +24,7 @@ services:
     volumes: # For persistence storage
       - .:/app # Left is local and after : is directory set in Dockerfile
       - /app/node_modules # Specifies to use Docker node_modules within Docker only and share everything else with us outside
-    command: yarn build:start # This will override the CMD command which is present in Dockerfile
+    command: pnpm build:start # This will override the CMD command which is present in Dockerfile
     env_file: .env
     depends_on:
       - mongodb
@@ -64,8 +64,6 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongodb
       - ME_CONFIG_BASICAUTH_USERNAME=admin
       - ME_CONFIG_BASICAUTH_PASSWORD=admin12345
-    volumes:
-      - mongodb-data
     networks:
       - shivam-api-dev
 

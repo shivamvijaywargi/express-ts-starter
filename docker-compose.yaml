@@ -24,7 +24,7 @@ services:
     volumes:
       - .:/app # Left is local and after : is directory set in Dockerfile
       - /app/node_modules # Specifies to use Docker node_modules within Docker only and share everything else with us outside
-    command: yarn build:start # This will override the CMD command which is present in Dockerfile
+    command: pnpm build:start # This will override the CMD command which is present in Dockerfile
     env_file: .env
     environment:
       - NODE_ENV=production
