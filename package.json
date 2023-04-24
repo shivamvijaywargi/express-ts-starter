@@ -11,7 +11,7 @@
     "prepare": "husky install",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\"",
-    "rebuild:be": "docker-compose -f docker-compose.dev.yaml build api && docker-compose -f docker-compose.dev.yaml rm --stop api && docker-compose -f docker-compose.dev.yaml up api",
+    "rebuild:be": "docker-compose -f docker-compose.dev.yaml build && docker-compose -f docker-compose.dev.yaml rm --stop && docker-compose -f docker-compose.dev.yaml up",
     "start:dev": "ts-node-dev -r tsconfig-paths/register --experimental-specifier-resolution=node --respawn --pretty --transpile-only --rs src/server.ts",
     "start:prod": "node dist/server.js",
     "test": "jest",
