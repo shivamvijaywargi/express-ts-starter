@@ -14,8 +14,7 @@
     "rebuild:be": "docker-compose -f docker-compose.dev.yaml build && docker-compose -f docker-compose.dev.yaml rm --stop && docker-compose -f docker-compose.dev.yaml up",
     "start:dev": "ts-node-dev -r tsconfig-paths/register --respawn --pretty --transpile-only --rs src/server.ts",
     "start:prod": "node dist/server.js",
-    "test": "jest",
-    "watch": "watchy --no-init-spawn --debounce 1 -w src -- docker-compose -f docker-compose.dev.yaml restart api"
+    "test": "jest"
   },
   "keywords": [
     "Express TypeScript Starter",
