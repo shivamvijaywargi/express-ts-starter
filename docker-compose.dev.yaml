@@ -1,6 +1,18 @@
 version: '3.9'
 
 services:
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - ./nginx/default.dev.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - api
+    networks:
+      - shivam-api-dev
+
   # api is the name of the backend, you can name it anything
   api:
     build: . # Path to Dockerfile
@@ -20,7 +32,7 @@ services:
       - NODE_ENV=development
       - PORT=5000
     networks:
-      - shivam-api
+      - shivam-api-dev
 
   #If you want to use local mongodb within docker then uncomment the below services(mongodb and mongo-express)
   mongodb:
@@ -36,7 +48,7 @@ services:
       # for persistence storage
       - mongodb-data:/data/db
     networks:
-      - shivam-api
+      - shivam-api-dev
 
   mongo-express:
     image: mongo-express
@@ -55,10 +67,10 @@ services:
     volumes:
       - mongodb-data
     networks:
-      - shivam-api
+      - shivam-api-dev
 
 networks:
-  shivam-api:
+  shivam-api-dev:
     driver: bridge
 
 volumes:
