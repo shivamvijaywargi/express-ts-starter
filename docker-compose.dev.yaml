@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+  # api is the name of the backend, you can name it anything
+  api:
+    build: . # Path to Dockerfile
+    restart: unless-stopped
+    ports:
+      - 5000:5000 # Left is local and right is docker (I Believe)
+      - 9229:9229 # Debugger port
+    # Volumes is used so that we do not build the entire image upon a single file change
+    volumes: # For persistence storage
+      - .:/app # Left is local and after : is directory set in Dockerfile
+      - /app/node_modules # Specifies to use Docker node_modules within Docker only and share everything else with us outside
+    command: yarn build:start # This will override the CMD command which is present in Dockerfile
+    env_file: .env
+    depends_on:
+      - mongodb
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+    networks:
+      - shivam-api
+
+  #If you want to use local mongodb within docker then uncomment the below services(mongodb and mongo-express)
+  mongodb:
+    image: mongo
+    restart: always
+    # container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      # for persistence storage
+      - mongodb-data:/data/db
+    networks:
+      - shivam-api
+
+  mongo-express:
+    image: mongo-express
+    depends_on:
+      - mongodb
+    # container_name: mongo-express
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=root
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpassword
+      - ME_CONFIG_MONGODB_URL=mongodb://root:rootpassword@mongo:27017/
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+      - ME_CONFIG_BASICAUTH_USERNAME=admin
+      - ME_CONFIG_BASICAUTH_PASSWORD=admin12345
+    volumes:
+      - mongodb-data
+    networks:
+      - shivam-api
+
+networks:
+  shivam-api:
+    driver: bridge
+
+volumes:
+  mongodb-data:
+    driver: local
