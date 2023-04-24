@@ -16,18 +16,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Third-party
 app.use(cookieParser());
+app.use(helmet());
 app.use(
   cors({
     origin: [
       'http://localhost:5173',
       'http://localhost:3000',
-      process.env.CLIENT_URL as string,
+      process.env.CLIENT_URL,
     ],
     credentials: true,
     optionsSuccessStatus: 200,
   }),
 );
-app.use(helmet());
 app.use(compression());
 // Custom
 app.use(morganMiddleware);
@@ -50,6 +50,9 @@ app.get('/api/ping', (_req, res) => {
 });
 
 // Import all routes
+import authRoutes from './routes/v1/auth.routes';
+
+app.use('/api/v1/auth', authRoutes);
 
 // CatchAll - 404 --- This should be after all the other routes
 app.all('*', (req, res) => {

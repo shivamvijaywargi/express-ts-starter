@@ -13,10 +13,14 @@ process.on('uncaughtException', (err) => {
 const PORT = process.env.PORT || 5000;
 
 const server = app.listen(PORT, async () => {
-  await connectToDB();
-  Logger.info(
-    `App is listening at http://localhost:${PORT} in ${process.env.NODE_ENV} mode`,
-  );
+  try {
+    await connectToDB();
+    Logger.info(
+      `App is listening at http://localhost:${PORT} in ${process.env.NODE_ENV} mode`,
+    );
+  } catch (error) {
+    Logger.error(error);
+  }
 });
 
 // log unhandled rejections

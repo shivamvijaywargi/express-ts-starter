@@ -1,26 +1,63 @@
+import fs from 'fs';
+import path from 'path';
+
+import handlebars from 'handlebars';
 import nodemailer from 'nodemailer';
+
 import Logger from '@/utils/logger';
 
-const sendEmail = async (user: string, subject: string, message: string) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST, // hostname
-    secure: false, // TLS requires secureConnection to be false
-    port: 587, // port for secure SMTP
-    auth: {
-      user: process.env.SMTP_MAIL,
-      pass: process.env.SMTP_PASS,
-    },
-  });
+// Below line is for typescript specific to use __dirname
+declare const __dirname: string;
 
-  const mailOptions = await transporter.sendMail({
-    from: process.env.SMTP_FROM_EMAIL,
-    to: user,
-    subject: subject,
-    html: message,
-  });
+interface IPayload {
+  name: string;
+  link: string;
+}
 
-  Logger.info('Message sent: %s', mailOptions.messageId);
-  Logger.info('Preview URL: %s', nodemailer.getTestMessageUrl(mailOptions));
+const sendEmail = async (
+  email: string,
+  subject: string,
+  payload: IPayload,
+  template: string,
+) => {
+  let transporter;
+
+  if (process.env.NODE_ENV === 'production') {
+    transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST, // hostname
+      secure: false, // TLS requires secureConnection to be false
+      port: 587, // port for secure SMTP
+      auth: {
+        user: process.env.SMTP_MAIL,
+        pass: process.env.SMTP_PASS,
+      },
+    });
+  } else if (process.env.NODE_ENV === 'development') {
+    transporter = nodemailer.createTransport({
+      host: 'mailhog',
+      port: 1025,
+    });
+  }
+
+  try {
+    const sourceDirectory = fs.readFileSync(
+      path.join(__dirname, template),
+      'utf8',
+    );
+
+    const compiledTemplate = handlebars.compile(sourceDirectory);
+
+    const emailOptions = {
+      from: process.env.SMTP_FROM_EMAIL,
+      to: email,
+      subject: subject,
+      html: compiledTemplate(payload),
+    };
+
+    await transporter?.sendMail(emailOptions);
+  } catch (error) {
+    Logger.error(`email not sent: ${error}`);
+  }
 };
 
 export default sendEmail;

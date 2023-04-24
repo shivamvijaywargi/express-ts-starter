@@ -1,0 +1,25 @@
+<html lang='en'>
+
+<head>
+  <meta charset='UTF-8' />
+  <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+  <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+  <title>Verify Your Account</title>
+</head>
+
+<body>
+  <h2>Kindly change the template in production ;)</h2>
+  <h3>Verify Your Account.</h3>
+  {{! name and link are dynamically injected from the payload that we pass in sendEmail }}
+  <p>Hi <b>{{name}}</b>, thanks for registering an account with us.</p>
+  <p>Please verify your account by clicking the link
+    <b><a href='{{link}}'>verify your account</a></b>
+  </p>
+  <p>Kindly note that this link will be valid for the next 15 minutes only.</p>
+
+  <p style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);">Made with love by <a
+      href="https://github.com/shivamvijaywargi">Shivam
+      Vijaywargi</a></p>
+</body>
+
+</html>

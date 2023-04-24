@@ -8,17 +8,17 @@ export interface IUser extends Document {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   password: string;
-  passwordChangedAt: number;
+  passwordChangedAt?: number;
   role: string;
   isActive: boolean;
   isEmailVerified: boolean;
   loginCount: number;
-  refreshToken: [string];
-  comparePassword: (password: string) => Promise<boolean>;
-  generateAccessToken: () => Promise<string>;
-  generateRefreshToken: () => Promise<string>;
+  refreshToken?: [string];
+  comparePassword?: (password: string) => Promise<boolean>;
+  generateAccessToken?: () => Promise<string>;
+  generateRefreshToken?: () => Promise<string>;
 }
 
 const userSchema = new Schema<IUser>(
@@ -28,7 +28,7 @@ const userSchema = new Schema<IUser>(
       required: [true, 'First name is required'],
       lowercase: true,
       minlength: [2, 'First name must be atleast 2 characters long'],
-      maxlength: [15, 'First name cannot be more than 15 characters'],
+      maxlength: [20, 'First name cannot be more than 20 characters'],
       trim: true,
     },
     lastName: {
@@ -36,7 +36,7 @@ const userSchema = new Schema<IUser>(
       required: [true, 'Last name is required'],
       lowercase: true,
       minlength: [2, 'Last name must be atleast 2 characters long'],
-      maxlength: [15, 'Last name cannot be more than 15 characters'],
+      maxlength: [20, 'Last name cannot be more than 20 characters'],
       trim: true,
     },
     email: {
