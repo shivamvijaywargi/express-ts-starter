@@ -8,13 +8,10 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await mongoose.connection.close();
-});
-
-afterEach(async () => {
   await mongoose.connection.db.dropDatabase();
 });
 
-describe('Test the registration route', () => {
+describe('Test the registration route POST /api/v1/auth/new', () => {
   it('registers a user successfully and returns a 201 status code', async () => {
     const response = await request(app)
       .post('/api/v1/auth/new')
