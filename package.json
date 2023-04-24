@@ -6,15 +6,16 @@
   "scripts": {
     "build": "rimraf ./dist && swc ./src -d dist",
     "build:start": "pnpm build && pnpm start:prod",
-    "dev": "nodemon --exec node --loader ts-node/esm ts-node/esm",
     "lint": "eslint --ignore-path .eslintignore \"src/**/*.ts\" --fix",
     "lint:check": "eslint --ignore-path .eslintignore \"src/**/*.ts\"",
     "prepare": "husky install",
     "prettier": "prettier --write \"src/**/*.ts\"",
     "prettier:check": "prettier --check \"src/**/*.ts\"",
+    "rebuild:be": "docker-compose -f docker-compose.dev.yaml build api && docker-compose -f docker-compose.dev.yaml rm --stop api && docker-compose -f docker-compose.dev.yaml up api",
     "start:dev": "ts-node-dev -r tsconfig-paths/register --experimental-specifier-resolution=node --respawn --pretty --transpile-only --rs src/server.ts",
     "start:prod": "node dist/server.js",
-    "test": "jest"
+    "test": "jest",
+    "watch": "watchy --no-init-spawn --debounce 1 -w src -- docker-compose -f docker-compose.dev.yaml restart api"
   },
   "keywords": [
     "Express TypeScript Starter",
@@ -81,7 +82,8 @@
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.0.4"
+    "typescript": "^5.0.4",
+    "watchy": "^0.10.0"
   },
   "homepage": "https://github.com/shivamvijaywargi/express-ts-starter#readme",
   "repository": {
