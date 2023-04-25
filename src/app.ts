@@ -51,6 +51,7 @@ app.get('/api/ping', (_req, res) => {
 
 // Import all routes
 import authRoutes from './routes/v1/auth.routes';
+import errorMiddleware from './middlewares/error.middleware';
 
 app.use('/api/v1/auth', authRoutes);
 
@@ -63,6 +64,6 @@ app.all('*', (req, res) => {
 });
 
 // Custom error middleware
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 export default app;
