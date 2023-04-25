@@ -5,6 +5,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
+import xss from 'xss-clean'; // type defined in ./types/xss-clean.d.ts
+import mongoSanitize from 'express-mongo-sanitize';
+
 import morganMiddleware from './configs/morgan';
 import rateLimiter from './configs/rateLimiter';
 
@@ -29,6 +32,9 @@ app.use(
   }),
 );
 app.use(compression());
+// Sanitize user-generated content
+app.use(xss());
+app.use(mongoSanitize());
 // Custom
 app.use(morganMiddleware);
 if (process.env.NODE_ENV === 'production') {

@@ -28,6 +28,9 @@ dependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.2
+  express-mongo-sanitize:
+    specifier: ^2.2.0
+    version: 2.2.0
   express-rate-limit:
     specifier: ^6.7.0
     version: 6.7.0(express@4.18.2)
@@ -55,6 +58,9 @@ dependencies:
   winston-daily-rotate-file:
     specifier: ^4.7.1
     version: 4.7.1(winston@3.8.2)
+  xss-clean:
+    specifier: ^0.1.1
+    version: 0.1.1
   zod:
     specifier: ^3.21.4
     version: 3.21.4
@@ -2732,6 +2738,11 @@ packages:
       jest-message-util: 29.5.0
       jest-util: 29.5.0
     dev: true
+
+  /express-mongo-sanitize@2.2.0:
+    resolution: {integrity: sha512-PZBs5nwhD6ek9ZuP+W2xmpvcrHwXZxD5GdieX2dsjPbAbH4azOkrHbycBud2QRU+YQF1CT+pki/lZGedHgo/dQ==}
+    engines: {node: '>=10'}
+    dev: false
 
   /express-rate-limit@6.7.0(express@4.18.2):
     resolution: {integrity: sha512-vhwIdRoqcYB/72TK3tRZI+0ttS8Ytrk24GfmsxDXK9o9IhHNO5bXRiXQSExPQ4GbaE5tvIS7j1SGrxsuWs+sGA==}
@@ -5810,6 +5821,16 @@ packages:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
     dev: true
+
+  /xss-clean@0.1.1:
+    resolution: {integrity: sha512-On99yydxoAEkHpraR7Wjg9cD6UmKfbtH2HXO1it2djid32osHL7Qr8bIu+dGYoOeKzf3ZszLfz1gwR/D7whZ2A==}
+    dependencies:
+      xss-filters: 1.2.6
+    dev: false
+
+  /xss-filters@1.2.6:
+    resolution: {integrity: sha512-uqgwZRpVJCDfHsRX9lDrkPyCitQYzPklmLSbajJncATZKAUd1tF1x9y2VyPNFMv8SsSWed80xorSS5qGpw3WiA==}
+    dev: false
 
   /xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
