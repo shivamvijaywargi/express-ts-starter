@@ -45,3 +45,20 @@ export const registerUserSchema = z.object({
 });
 
 export type RegisterUserSchema = z.infer<typeof registerUserSchema>;
+
+export const loginUserSchema = z.object({
+  body: z.object({
+    email: z
+      .string({
+        required_error: 'Email is required',
+      })
+      .email(),
+    password: z
+      .string({
+        required_error: 'Password is required',
+      })
+      .min(8, {
+        message: 'Password must be at least 8 characters',
+      }),
+  }),
+});
