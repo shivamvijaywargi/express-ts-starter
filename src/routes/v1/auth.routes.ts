@@ -10,6 +10,7 @@ import {
   loginUserSchema,
   registerUserSchema,
 } from '@/validations/auth.validation';
+import { loginLimiter } from '@/configs/rateLimiter';
 
 const router = Router();
 
@@ -17,7 +18,9 @@ const router = Router();
  * @ROUTE {{URL}}/api/v1/auth
  */
 router.route('/new').post(validateRequestObj(registerUserSchema), registerUser);
-router.route('/').post(validateRequestObj(loginUserSchema), loginUser);
+router
+  .route('/')
+  .post(loginLimiter, validateRequestObj(loginUserSchema), loginUser);
 router.route('/logout').post(logoutUser);
 
 export default router;
