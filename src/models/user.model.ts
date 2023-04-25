@@ -8,17 +8,17 @@ export interface IUser extends Document {
   firstName: string;
   lastName: string;
   email: string;
-  phoneNumber?: string;
+  phoneNumber: string;
   password: string;
-  passwordChangedAt?: number;
+  passwordChangedAt: number;
   role: string;
   isActive: boolean;
   isEmailVerified: boolean;
   loginCount: number;
-  refreshToken?: [string];
-  comparePassword?: (password: string) => Promise<boolean>;
-  generateAccessToken?: () => Promise<string>;
-  generateRefreshToken?: () => Promise<string>;
+  refreshToken: string[];
+  comparePassword: (password: string) => Promise<boolean>;
+  generateAccessToken: () => Promise<string>;
+  generateRefreshToken: () => Promise<string>;
 }
 
 const userSchema = new Schema<IUser>(
@@ -102,7 +102,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods = {
   comparePassword: async function (plainPassword: string) {
-    return bcrypt.compare(plainPassword, this.password);
+    return await bcrypt.compare(plainPassword, this.password);
   },
   generateAccessToken: async function () {
     return jwt.sign(

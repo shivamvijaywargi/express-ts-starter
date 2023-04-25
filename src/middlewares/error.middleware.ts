@@ -6,12 +6,10 @@ import Logger from '@/utils/logger';
 
 const errorMiddleware: ErrorRequestHandler = async (
   err: AppErr,
-  _req: Request,
+  req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  Logger.error(err.message);
-
   err.statusCode = err.statusCode || 500;
   err.message = err.message || 'Internal Server Error';
 
@@ -38,6 +36,8 @@ const errorMiddleware: ErrorRequestHandler = async (
     const message = `Json Web Token is expired, try again`;
     err = new AppErr(message, 400);
   }
+
+  Logger.error(err.message);
 
   if (process.env.NODE_ENV === 'production') {
     res.status(err.statusCode).json({

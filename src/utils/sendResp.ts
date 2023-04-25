@@ -1,8 +1,8 @@
 const sendResp = (
   message: string,
   data: object,
-  accessToken?: string,
   statusCode = 200,
+  accessToken?: string,
 ) => {
   return {
     statusCode,
