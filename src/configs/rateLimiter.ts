@@ -24,10 +24,30 @@ const rateLimiter = rateLimit({
 
 export const loginLimiter = rateLimit({
   windowMs: 30 * 60 * 1000, // 30 minutes
-  max: 20,
+  max: 1,
   message: {
     message:
       'Too many login attempts from this IP address, please try again after 30 minutes',
+  },
+  handler: (req, res, _next, options) => {
+    Logger.error(
+      `Too many requests: ${options.message.message}\t${req.method}\t${req.url}\t${req.headers.origin}\tIP: ${req.ip}`,
+    );
+    res.status(options.statusCode).json({
+      success: false,
+      message: options.message.message,
+    });
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const registerLimiter = rateLimit({
+  windowMs: 30 * 60 * 1000, // 30 minutes
+  max: 5,
+  message: {
+    message:
+      'Too many signup attempts from this IP address, please try again after 1 hour',
   },
   handler: (req, res, _next, options) => {
     Logger.error(
