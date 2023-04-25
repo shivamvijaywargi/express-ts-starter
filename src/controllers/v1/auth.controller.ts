@@ -8,21 +8,28 @@ import VerifyResetToken from '@/models/verifyResetToken.model';
 import AppErr from '@/utils/AppErr';
 import sendEmail from '@/utils/sendEmail';
 import sendResp from '@/utils/sendResp';
+import Logger from '@/utils/logger';
 
 interface ICookieOptions {
   httpOnly: boolean;
   sameSite: boolean | 'lax' | 'strict' | 'none';
   maxAge: number;
-  secure: boolean;
+  secure?: boolean;
 }
 
 const cookieOptions: ICookieOptions = {
   httpOnly: true,
   sameSite: 'none',
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
-  secure: true,
+  // secure: true, // This does not work in local I believe
 };
 
+/**
+ * @REGISTER
+ * @ROUTE @POST {{URL}}/api/v1/auth/new
+ * @returns Sends verification email to user email
+ * @ACCESS Public
+ */
 export const registerUser: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const userExists = await User.findOne({ email: req.body.email });
@@ -71,6 +78,12 @@ export const registerUser: RequestHandler = asyncHandler(
   },
 );
 
+/**
+ * @LOGIN
+ * @ROUTE @POST {{URL}}/api/v1/auth
+ * @returns Refresh(cookies) + Access token(response) and user
+ * @ACCESS Public
+ */
 export const loginUser: RequestHandler = asyncHandler(
   async (req, res, next) => {
     const { email, password } = req.body;
@@ -146,3 +159,35 @@ export const loginUser: RequestHandler = asyncHandler(
       );
   },
 );
+
+/**
+ * @LOGOUT
+ * @ROUTE @POST {{URL}}/api/v1/auth/logout
+ * @returns Logged out successfully
+ * @ACCESS Public
+ */
+export const logoutUser: RequestHandler = asyncHandler(async (req, res) => {
+  const cookies = req.cookies;
+
+  if (!cookies?.jwtToken) {
+    Logger.error('No token found.', 404);
+    return res.sendStatus(204);
+  }
+
+  const refreshToken = cookies.jwtToken;
+
+  const user = await User.findOne({ refreshToken });
+
+  if (!user) {
+    res.clearCookie('jwtToken', cookieOptions);
+    return res.sendStatus(204);
+  }
+
+  user.refreshToken = user.refreshToken.filter((refT) => refT !== refreshToken);
+
+  await user.save();
+
+  res.clearCookie('jwtToken', cookieOptions);
+
+  res.status(200).json(sendResp('Logged out successfully.', {}, 200));
+});

@@ -1,6 +1,10 @@
 import { Router } from 'express';
 
-import { loginUser, registerUser } from '@/controllers/v1/auth.controller';
+import {
+  loginUser,
+  logoutUser,
+  registerUser,
+} from '@/controllers/v1/auth.controller';
 import validateRequestObj from '@/middlewares/validateRequestObj';
 import {
   loginUserSchema,
@@ -14,5 +18,6 @@ const router = Router();
  */
 router.route('/new').post(validateRequestObj(registerUserSchema), registerUser);
 router.route('/').post(validateRequestObj(loginUserSchema), loginUser);
+router.route('/logout').post(logoutUser);
 
 export default router;
