@@ -72,9 +72,7 @@ export const registerUser: RequestHandler = asyncHandler(
       '../templates/accountVerification.handlebars',
     );
 
-    res
-      .status(201)
-      .json(sendResp('User registered successfully.', newUser, 201));
+    res.status(201).json(sendResp('User registered successfully.', {}, 201));
   },
 );
 
