@@ -1,6 +1,6 @@
 const sendResp = (
   message: string,
-  data: object,
+  data: unknown,
   statusCode = 200,
   accessToken?: string,
 ) => {

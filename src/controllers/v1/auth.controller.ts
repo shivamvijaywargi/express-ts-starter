@@ -74,7 +74,9 @@ export const registerUser: RequestHandler = asyncHandler(
       '../templates/accountVerification.handlebars',
     );
 
-    res.status(201).json(sendResp('User registered successfully.', {}, 201));
+    res
+      .status(201)
+      .json(sendResp('User registered successfully.', undefined, 201));
   },
 );
 
@@ -189,7 +191,7 @@ export const logoutUser: RequestHandler = asyncHandler(async (req, res) => {
 
   res.clearCookie('jwtToken', cookieOptions);
 
-  res.status(200).json(sendResp('Logged out successfully.', {}, 200));
+  res.status(200).json(sendResp('Logged out successfully.', undefined, 200));
 });
 
 /**
@@ -300,6 +302,8 @@ export const resendVerifyEmailToken: RequestHandler = asyncHandler(
       '../templates/accountVerification.handlebars',
     );
 
-    res.status(200).json(sendResp(`Email verification token sent.`, {}, 200));
+    res
+      .status(200)
+      .json(sendResp(`Email verification token sent.`, undefined, 200));
   },
 );
