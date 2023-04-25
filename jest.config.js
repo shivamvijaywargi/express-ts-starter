@@ -9,4 +9,5 @@ module.exports = {
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
   },
+  modulePathIgnorePatterns: ['<rootDir>/dist/'], // To ignore tests from the dist/ directory
 };

@@ -7,8 +7,8 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection.close();
   await mongoose.connection.db.dropDatabase();
+  await mongoose.connection.close();
 });
 
 describe('Test the registration route POST /api/v1/auth/new', () => {
