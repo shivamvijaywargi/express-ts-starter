@@ -44,7 +44,7 @@ export const registerUserSchema = z.object({
   }),
 });
 
-export type RegisterUserSchema = z.infer<typeof registerUserSchema>;
+export type RegisterUserSchema = z.infer<typeof registerUserSchema>['body'];
 
 export const loginUserSchema = z.object({
   body: z.object({
@@ -62,3 +62,5 @@ export const loginUserSchema = z.object({
       }),
   }),
 });
+
+export type LoginUserSchema = z.infer<typeof loginUserSchema>['body'];
