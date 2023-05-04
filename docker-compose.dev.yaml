@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   nginx:
+    container_name: express-ts-dev-nginx
     image: nginx
     restart: always
     ports:
@@ -15,6 +16,7 @@ services:
 
   # api is the name of the backend, you can name it anything
   api:
+    container_name: express-ts-dev-api
     build: . # Path to Dockerfile
     restart: unless-stopped
     ports:
@@ -28,14 +30,17 @@ services:
     env_file: .env
     depends_on:
       - mongodb
+      - mailhog
     environment:
       - NODE_ENV=development
       - PORT=5000
+      - MONGO_URI=mongodb://root:rootpassword@mongodb:27017/express-ts-dev?authSource=admin&retryWrites=true
     networks:
       - shivam-api-dev
 
   #If you want to use local mongodb within docker then uncomment the below services(mongodb and mongo-express)
   mongodb:
+    container_name: express-ts-dev-mongodb
     image: mongo
     restart: always
     # container_name: mongo
@@ -51,6 +56,7 @@ services:
       - shivam-api-dev
 
   mongo-express:
+    container_name: express-ts-dev-mongo-express
     image: mongo-express
     depends_on:
       - mongodb
@@ -68,6 +74,7 @@ services:
       - shivam-api-dev
 
   mailhog:
+    container_name: express-ts-dev-mailhog
     image: lytrax/mailhog:latest # https://github.com/mailhog/MailHog/issues/353#issuecomment-821137362
     restart: always
     logging:
@@ -75,6 +82,8 @@ services:
     ports:
       - '8025:8025' # Web UI
       - '1025:1025' # SMTP server
+    environment:
+      - SMTP_FROM_EMAIL=express@ts.dev
     networks:
       - shivam-api-dev
 
