@@ -19,6 +19,7 @@ export interface IUser extends Document {
   comparePassword: (password: string) => Promise<boolean>;
   generateAccessToken: () => Promise<string>;
   generateRefreshToken: () => Promise<string>;
+  generateGravatar: (size: number) => string;
 }
 
 const userSchema = new Schema<IUser>(
@@ -122,6 +123,19 @@ userSchema.methods = {
       },
     );
   },
+  generateGravatar: function gravatar(size) {
+    if (!size) {
+      size = 200;
+    }
+
+    if (!this.email) {
+      return `https://gravatar.com/avatar/00000000000000000000000000000000?s=${size}&d=robohash`;
+    }
+
+    const md5 = crypto.createHash('md5').update(this.email).digest('hex');
+
+    return `https://gravatar.com/avatar/${md5}?s=${size}&d=robohash`;
+  }
 };
 
 const User = model<IUser>('User', userSchema);
